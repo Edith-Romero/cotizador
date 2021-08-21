@@ -1,6 +1,7 @@
-import Raact, {useState} from 'react';
+import {useState} from 'react';
 import styled from '@emotion/styled';
 import {obtenerDiferenciaYear, calcularMarca,obtenerPlan} from '../Componentes/Helper';
+import PropTypes from 'prop-types';
 
 const Campo = styled.div`
     display:flex;
@@ -53,7 +54,7 @@ const Error = styled.div`
 `;
 
 
-const Formulario = ({setResumen}) => {
+const Formulario = ({setResumen, setCargando}) => {
 
     const [datos,setDatos] = useState({
         marca:'',
@@ -85,6 +86,7 @@ const Formulario = ({setResumen}) => {
         }  
 
         setError(false);
+
   
 
         // Monto Minimo inicial del alquiler
@@ -116,16 +118,19 @@ const Formulario = ({setResumen}) => {
         resultado = parseFloat(incrementarPlan * resultado).toFixed(2);
         console.log(resultado);
 
-        // total
-        setResumen ({
-            cotizacion: resultado, 
-            datos
-        })
- 
-}
+        setCargando(true);
 
-
-        
+        setTimeout(() =>{
+            // Elimina el Spinner
+            setCargando(false);
+            // Pasa la informacion al componente inicial
+            setResumen({
+                cotizacion: resultado, 
+                datos
+            })
+        },3000
+        );
+}        
     return (           
         <form 
         onSubmit={cotizarFormulario}
@@ -187,6 +192,11 @@ const Formulario = ({setResumen}) => {
             </Boton>
         </form> 
     );
+}
+
+Formulario.prototype = {
+    setResumen: PropTypes.func.isRequired,
+    setCargando: PropTypes.func.isRequired
 }
  
 export default Formulario

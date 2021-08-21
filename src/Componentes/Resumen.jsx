@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react';
 import styled from '@emotion/styled';
-import {primerMayuscula} from './Helper'
+import {primerMayuscula} from './Helper';
+import PropTypes from 'prop-types';
 
 const BoxResumen = styled.div`
     padding: 1rem;
@@ -26,6 +27,10 @@ const Resumen = ({datos}) => {
             </ul>
         </BoxResumen>
      );
+}
+
+Resumen.propTypes = {
+    datos : PropTypes.object.isRequired
 }
  
 export default Resumen;

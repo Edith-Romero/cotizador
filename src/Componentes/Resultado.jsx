@@ -1,5 +1,7 @@
 import React from "react";
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
+import {TransitionGroup,CSSTransition} from 'react-transition-group';
+import PropTypes from 'prop-types';
 
 const Mensaje = styled.p`
     background-color: rgb(127,224,237);
@@ -31,10 +33,27 @@ const Resultado = ({cotizacion}) => {
        ? <Mensaje>Elige marca, ano y tipo de seguro</Mensaje> 
        : (
            <ResultadoCotizacion>
-                <TextoCotizacion>El Total es: $ {cotizacion}</TextoCotizacion>
+               <TransitionGroup
+                    component = "p"
+                    className = "resultado"
+                    >
+               <CSSTransition
+                        classNames = "resultado"
+                        key = {cotizacion}
+                        timeout= {{ enter:500, exit:500}}                  
+                   >
+                        <TextoCotizacion>El Total es: $ {cotizacion}</TextoCotizacion>
+                   </CSSTransition>
+               </TransitionGroup>
             </ResultadoCotizacion>
         )
     );
 }
  
+Resultado.propTypes = {
+    cotizacion: PropTypes.number.isRequired
+}
+
 export default Resultado;
+
+// para hacer el sppiner npm react-transition-group en la terminal

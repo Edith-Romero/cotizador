@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import Header from './Componentes/Header';
 import Formulario from './Componentes/Formulario';
 import Resumen from './Componentes/Resumen';
 import Resultado from './Componentes/Resultado'
 import styled from '@emotion/styled';
+import Spinner from './Componentes/Spinner'
+
 
 
 const Box = styled.div`
@@ -31,6 +33,8 @@ function App() {
 
   const {cotizacion, datos} = resumen;
 
+  const [cargando,setCargando] = useState (false)
+
   return (
     <Box>
       <br/>
@@ -40,13 +44,29 @@ function App() {
         <BoxFormulario>
           <Formulario
             setResumen={setResumen}
+            setCargando = {setCargando}
           />
-          <Resumen
-          datos={datos}
-          />
-          <Resultado
-          cotizacion={cotizacion}
-          />
+          {cargando ? <Spinner/> : null}
+          
+          {/* {!cargando ?  
+            <Resumen
+              datos={datos}
+            />
+            : null
+          } */}
+          
+          {!cargando ?
+            <Fragment>
+              <Resumen
+                datos={datos}
+              />
+              <Resultado
+                cotizacion={cotizacion}
+                setCargando = {setCargando}
+              /> 
+            </Fragment>
+            :null
+          }
         </BoxFormulario>
     </Box>
     );
